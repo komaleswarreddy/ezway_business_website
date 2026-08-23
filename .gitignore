@@ -1,0 +1,34 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.cursor/
+
+# Dependencies & build
+node_modules/
+web/node_modules/
+web/.next/
+web/out/
+web/build/
+*.tsbuildinfo
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Vercel
+.vercel
+web/.vercel
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local design exports (keep app assets under web/public)
+design-handoff/
+*.pdf
+/Set app color theme*.png
+/Image (City at night).png
