@@ -1,8 +1,8 @@
 export const homeNav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "#careers", label: "Careers" },
-  { href: "#contact", label: "Contact" },
+  { href: "/careers", label: "Careers" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export const heroContent = {

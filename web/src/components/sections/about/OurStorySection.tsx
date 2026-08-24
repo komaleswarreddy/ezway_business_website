@@ -10,10 +10,10 @@ const statBgMap = {
 export function OurStorySection() {
   return (
     <section className="ezway-section bg-white text-[var(--ezway-black)]">
-      <div className="grid grid-cols-[1.15fr_0.85fr] gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
         <div>
           <p className="ezway-label mb-3">{ourStoryContent.label}</p>
-          <h2 className="ezway-display mb-6 text-[48px] leading-[0.95]">
+          <h2 className="ezway-display mb-6 text-[28px] leading-[1] md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
             {ourStoryContent.heading}
           </h2>
           <div className="space-y-4 text-[15px] leading-relaxed text-[#666666]">
@@ -42,7 +42,9 @@ export function OurStorySection() {
               key={stat.label}
               className={`rounded-[28px] p-7 ${statBgMap[stat.bg]}`}
             >
-              <p className="ezway-display text-[40px]">{stat.value}</p>
+              <p className="ezway-display text-[30px] md:text-[36px] lg:text-[40px]">
+                {stat.value}
+              </p>
               <p className="mt-2 text-sm opacity-85">{stat.label}</p>
             </div>
           ))}

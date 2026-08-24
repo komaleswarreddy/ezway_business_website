@@ -6,10 +6,10 @@ export function ImpactSection() {
     <section className="relative ezway-section overflow-hidden bg-[var(--ezway-black)]">
       <div className="relative z-10">
         <p className="ezway-label mb-3 text-center">{impactContent.label}</p>
-        <h2 className="ezway-display mb-10 text-center text-[48px]">
+        <h2 className="ezway-display mb-8 text-center text-[28px] leading-[1] md:mb-10 md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
           {impactContent.heading}
         </h2>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {impactContent.stats.map((stat) => (
             <div
               key={stat.label}

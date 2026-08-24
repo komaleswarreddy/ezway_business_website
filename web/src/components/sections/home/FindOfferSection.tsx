@@ -45,13 +45,13 @@ export function FindOfferSection() {
   const { top, bottomLeft, bottomRight } = findOfferContent;
 
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-16 py-20">
+    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
       {/* Section header — centered */}
-      <div className="mb-10 text-center">
+      <div className="mb-8 text-center md:mb-10">
         <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-orange)]">
           {findOfferContent.label}
         </p>
-        <h2 className="ezway-display text-[48px] leading-[0.95] text-[var(--ezway-black)]">
+        <h2 className="ezway-display text-[28px] leading-[1] text-[var(--ezway-black)] md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
           {findOfferContent.heading.map((line) => (
             <span key={line} className="block">
               {line}
@@ -61,8 +61,8 @@ export function FindOfferSection() {
       </div>
 
       {/* Top card — image left, content right */}
-      <div className="mb-5 overflow-hidden rounded-[28px] bg-white p-8 shadow-[0_2px_24px_rgba(0,0,0,0.04)]">
-        <div className="grid grid-cols-2 items-center gap-10">
+      <div className="mb-5 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:p-7 lg:p-8">
+        <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-10">
           <div className="overflow-hidden rounded-[22px]">
             <Image
               src={top.image}
@@ -81,7 +81,7 @@ export function FindOfferSection() {
               </span>
             </div>
 
-            <h3 className="text-[28px] font-black uppercase leading-[1.05] tracking-[-0.02em] text-[var(--ezway-black)]">
+            <h3 className="text-[22px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-[var(--ezway-black)] md:text-[26px] lg:text-[28px] lg:leading-[1.05]">
               {top.heading}
             </h3>
             <p className="mt-4 max-w-[420px] text-[14px] leading-[1.7] text-[var(--ezway-muted)]">
@@ -106,10 +106,10 @@ export function FindOfferSection() {
       </div>
 
       {/* Bottom row */}
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Drivers card */}
-        <div className="relative overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-8 pb-8 pt-8">
-          <div className="grid grid-cols-[1fr_auto] items-end gap-4">
+        <div className="relative overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-7 pt-7 md:px-8 md:pb-8 md:pt-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_auto] md:items-end md:gap-4">
             <div className="pb-2">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -126,7 +126,7 @@ export function FindOfferSection() {
                 </span>
               </div>
 
-              <h3 className="text-[26px] font-black uppercase leading-[1.08] tracking-[-0.02em] text-white">
+              <h3 className="text-[20px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-white md:text-[26px] md:leading-[1.08]">
                 {bottomLeft.heading[0]}
                 <br />
                 {bottomLeft.heading[1]}
@@ -149,13 +149,13 @@ export function FindOfferSection() {
               alt={bottomLeft.imageAlt}
               width={200}
               height={400}
-              className="h-[320px] w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)]"
+              className="mx-auto h-[220px] w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] md:mx-0 md:h-[320px]"
             />
           </div>
         </div>
 
         {/* Community stats card */}
-        <div className="overflow-hidden rounded-[28px] bg-white px-8 pb-8 pt-8 shadow-[0_2px_24px_rgba(0,0,0,0.04)]">
+        <div className="overflow-hidden rounded-[28px] bg-white px-6 pb-7 pt-7 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:px-8 md:pb-8 md:pt-8">
           <h3 className="text-[22px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-[var(--ezway-black)]">
             {bottomRight.heading}
           </h3>

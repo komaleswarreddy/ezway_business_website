@@ -75,7 +75,19 @@ body {
 }
 
 .ezway-section {
-  padding: var(--ezway-section-y) var(--ezway-section-x);
+  padding: 40px 20px;
+}
+
+@media (min-width: 768px) {
+  .ezway-section {
+    padding: 56px 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ezway-section {
+    padding: var(--ezway-section-y) var(--ezway-section-x);
+  }
 }
 
 .ezway-btn-primary {

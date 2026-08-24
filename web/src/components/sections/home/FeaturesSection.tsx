@@ -53,33 +53,33 @@ export function FeaturesSection() {
   const [c1, c2, c3, c4] = featuresContent.cards;
 
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-16 py-20">
+    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
       {/* Header */}
-      <div className="mb-10 grid grid-cols-[1fr_340px] items-start gap-10">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:mb-10 lg:grid-cols-[1fr_340px] lg:items-start lg:gap-10">
         <div>
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-orange)]">
             {featuresContent.label}
           </p>
-          <h2 className="ezway-display text-[48px] leading-[0.95] text-[var(--ezway-black)]">
+          <h2 className="ezway-display text-[28px] leading-[1] text-[var(--ezway-black)] md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
             {featuresContent.heading}
           </h2>
         </div>
-        <p className="pt-2 text-[14px] leading-[1.65] text-[var(--ezway-muted)]">
+        <p className="text-[14px] leading-[1.65] text-[var(--ezway-muted)] lg:pt-2">
           {featuresContent.intro}
         </p>
       </div>
 
       {/* Top row — wide left, narrow right */}
-      <div className="grid grid-cols-[1.68fr_1fr] gap-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.68fr_1fr]">
         {/* Card 01 */}
-        <div className="relative min-h-[520px] overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-8 pb-6 pt-8">
-          <span className="pointer-events-none absolute right-6 top-2 select-none text-[148px] font-black leading-none text-white/[0.05]">
+        <div className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:px-8 lg:pt-8">
+          <span className="pointer-events-none absolute right-6 top-2 select-none text-[90px] font-black leading-none text-white/[0.05] md:text-[120px] lg:text-[148px]">
             {c1.num}
           </span>
           <p className="relative mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--ezway-orange)]">
             {c1.tag}
           </p>
-          <h3 className="relative max-w-[420px] text-[26px] font-black uppercase leading-[1.05] tracking-[-0.02em] text-white">
+          <h3 className="relative max-w-[420px] text-[21px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-white md:text-[24px] lg:text-[26px] lg:leading-[1.05]">
             {c1.title}
           </h3>
           <p className="relative mt-4 max-w-[400px] text-[14px] leading-[1.65] text-[#d0d0d0]">
@@ -97,21 +97,21 @@ export function FeaturesSection() {
                 alt={phone.alt}
                 width={phone.width}
                 height={phone.height}
-                className="h-[248px] w-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)]"
+                className="h-[190px] w-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] md:h-[220px] lg:h-[248px]"
               />
             ))}
           </div>
         </div>
 
         {/* Card 02 */}
-        <div className="relative min-h-[520px] overflow-hidden rounded-[28px] bg-[var(--ezway-orange)] px-7 pb-7 pt-8">
-          <span className="pointer-events-none absolute left-5 top-2 select-none text-[148px] font-black leading-none text-white/10">
+        <div className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-orange)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:pb-7 lg:pt-8">
+          <span className="pointer-events-none absolute left-5 top-2 select-none text-[90px] font-black leading-none text-white/10 md:text-[120px] lg:text-[148px]">
             {c2.num}
           </span>
           <div className="relative mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/30">
             <ShieldIcon />
           </div>
-          <h3 className="relative max-w-[280px] text-[22px] font-black uppercase leading-[1.08] tracking-[-0.02em] text-white">
+          <h3 className="relative max-w-[280px] text-[20px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-white md:text-[22px] lg:leading-[1.08]">
             {c2.title}
           </h3>
           <p className="relative mt-3 max-w-[280px] text-[13px] leading-[1.6] text-white/90">
@@ -138,26 +138,26 @@ export function FeaturesSection() {
       </div>
 
       {/* Bottom row — narrow left, wide right (reference 40/60 split) */}
-      <div className="mt-5 grid grid-cols-[1fr_1.68fr] gap-5">
+      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_1.68fr]">
         {/* Card 03 — exported card has all text baked in */}
-        <div className="relative min-h-[340px] overflow-hidden rounded-[28px]">
+        <div className="relative min-h-[220px] overflow-hidden rounded-[28px] md:min-h-[280px] lg:min-h-[340px]">
           <Image
             src={c3.image!}
             alt={c3.imageAlt!}
             fill
             className="object-cover"
-            sizes="(max-width: 1325px) 40vw, 400px"
+            sizes="(max-width: 1024px) 100vw, (max-width: 1325px) 40vw, 400px"
           />
         </div>
 
         {/* Card 04 — Share Your Route */}
-        <div className="relative min-h-[340px] overflow-hidden rounded-[28px] border border-[#e8e8e8] bg-white">
-          <div className="flex h-full items-center justify-between gap-6 px-8 py-8">
-            <div className="max-w-[270px] shrink-0">
+        <div className="relative min-h-0 overflow-hidden rounded-[28px] border border-[#e8e8e8] bg-white md:min-h-[340px]">
+          <div className="flex h-full flex-col items-start gap-6 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-8 md:py-8">
+            <div className="max-w-none shrink-0 md:max-w-[270px]">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#fff0e0]">
                 <CarIcon />
               </div>
-              <h3 className="text-[26px] font-black uppercase leading-[1.08] tracking-[-0.02em] text-[var(--ezway-black)]">
+              <h3 className="text-[22px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-[var(--ezway-black)] md:text-[26px] md:leading-[1.08]">
                 SHARE YOUR ROUTE.
                 <br />
                 EARN COINS.
@@ -167,20 +167,20 @@ export function FeaturesSection() {
               </p>
             </div>
 
-            <div className="flex shrink-0 items-end gap-3 pr-1">
+            <div className="mx-auto flex shrink-0 items-end gap-3 pr-1 md:mx-0">
               <Image
                 src={c4.phones![0].src}
                 alt={c4.phones![0].alt}
                 width={148}
                 height={296}
-                className="h-[288px] w-auto object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.14)]"
+                className="h-[220px] w-auto object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.14)] md:h-[260px] lg:h-[288px]"
               />
               <Image
                 src={c4.phones![1].src}
                 alt={c4.phones![1].alt}
                 width={160}
                 height={318}
-                className="h-[308px] w-[160px] object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.14)]"
+                className="h-[236px] w-[122px] object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.14)] md:h-[280px] md:w-[145px] lg:h-[308px] lg:w-[160px]"
               />
             </div>
           </div>

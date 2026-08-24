@@ -11,17 +11,17 @@ export function BeliefsSection() {
   return (
     <section className="ezway-section bg-[var(--ezway-light-gray)] text-[var(--ezway-black)]">
       <p className="ezway-label mb-3 text-center">{beliefsContent.label}</p>
-      <h2 className="ezway-display mb-10 text-center text-[48px]">
+      <h2 className="ezway-display mb-8 text-center text-[28px] leading-[1] md:mb-10 md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
         {beliefsContent.heading}
       </h2>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {beliefsContent.cards.map((card) => (
           <div
             key={card.num}
-            className={`relative min-h-[380px] overflow-hidden rounded-[40px] p-8 ${beliefBgMap[card.bg]}`}
+            className={`relative min-h-[300px] overflow-hidden rounded-[40px] p-6 md:min-h-[340px] md:p-7 lg:min-h-[380px] lg:p-8 ${beliefBgMap[card.bg]}`}
           >
             <span
-              className={`absolute left-6 top-4 text-[96px] font-black leading-none ${
+              className={`absolute left-6 top-4 text-[64px] font-black leading-none md:text-[80px] lg:text-[96px] ${
                 card.bg === "orange"
                   ? "text-white/20"
                   : card.bg === "black"

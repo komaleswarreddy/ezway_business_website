@@ -7,7 +7,7 @@ type FooterLinkColumn = {
 };
 
 type SiteFooterProps = {
-  variant?: "home" | "about";
+  variant?: "home" | "about" | "careers";
 };
 
 type FooterConfig = {
@@ -20,7 +20,7 @@ type FooterConfig = {
   social: "home" | "about";
 };
 
-const footerConfig: Record<"home" | "about", FooterConfig> = {
+const footerConfig: Record<"home" | "about" | "careers", FooterConfig> = {
   home: {
     description:
       "India's community-first ride sharing platform. Verified users, affordable rides, and a greener commute.",
@@ -64,6 +64,25 @@ const footerConfig: Record<"home" | "about", FooterConfig> = {
       },
     ],
     copyright: "© 2024 eZway Technologies Pvt. Ltd. - All rights reserved.",
+    tagline: "Made with ♥ for India's commuters.",
+    showTopBorder: true,
+    appBadgesRow: true,
+    social: "home",
+  },
+  careers: {
+    description:
+      "India's community-first ride sharing platform. Verified users, affordable rides, and a greener commute.",
+    columns: [
+      {
+        title: "Company",
+        links: ["About", "Careers", "Contact Us"],
+      },
+      {
+        title: "Legal",
+        links: ["Terms of Service", "Privacy Policy"],
+      },
+    ],
+    copyright: "© 2024 eZway Technologies. All rights reserved.",
     tagline: "Made with ♥ for India's commuters.",
     showTopBorder: true,
     appBadgesRow: true,
@@ -149,30 +168,30 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
   return (
     <footer
       id="contact"
-      className={`bg-[var(--ezway-pure-black)] px-16 pb-10 pt-16 ${
+      className={`bg-[var(--ezway-pure-black)] px-5 pb-8 pt-10 md:px-10 md:pb-10 md:pt-12 lg:px-16 lg:pb-10 lg:pt-16 ${
         config.showTopBorder ? "border-t-[5px] border-[var(--ezway-orange)]" : ""
       }`}
     >
-      <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-12">
-        <div>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-12">
+        <div className="md:col-span-2 lg:col-span-1">
           <Image
             src="/assets/logo/ezway-logo.png"
             alt="Ezway"
             width={120}
             height={36}
-            className="mb-6"
+            className="mb-6 h-8 w-auto lg:h-auto"
           />
           <p className="mb-6 max-w-xs text-sm leading-relaxed text-[var(--ezway-muted)]">
             {config.description}
           </p>
           <div
-            className={`mb-6 flex items-center gap-6 ${
+            className={`mb-6 flex items-center gap-4 md:gap-6 ${
               config.appBadgesRow ? "flex-row flex-wrap" : "flex-col items-start"
             }`}
           >
             <SocialLinks variant={config.social} />
             <div
-              className={`flex gap-3 ${
+              className={`flex flex-wrap gap-3 ${
                 config.appBadgesRow ? "flex-row" : "flex-col"
               }`}
             >
@@ -181,12 +200,14 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
                 alt="Get it on Google Play"
                 width={150}
                 height={44}
+                className="h-9 w-auto lg:h-11"
               />
               <Image
                 src="/assets/icons/badge-app-store.png"
                 alt="Download on the App Store"
                 width={150}
                 height={44}
+                className="h-9 w-auto lg:h-11"
               />
             </div>
           </div>
@@ -211,7 +232,7 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
         ))}
       </div>
 
-      <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-6 text-xs text-[var(--ezway-muted)]">
+      <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-[var(--ezway-muted)] sm:flex-row sm:items-center sm:justify-between lg:mt-12">
         <span>{config.copyright}</span>
         <span>{config.tagline}</span>
       </div>

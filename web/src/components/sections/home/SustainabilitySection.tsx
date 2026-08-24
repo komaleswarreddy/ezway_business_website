@@ -5,16 +5,16 @@ export function SustainabilitySection() {
   const { footer } = sustainabilityContent;
 
   return (
-    <section className="bg-[#eef8f0] px-16 py-20">
-      <div className="grid grid-cols-2 items-start gap-10">
+    <section className="bg-[#eef8f0] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-10">
         {/* Left — exported image already includes environmental impact overlay */}
-        <div className="overflow-hidden rounded-[28px]">
+        <div className="relative h-[280px] w-full overflow-hidden rounded-[28px] md:h-[400px] lg:h-[560px]">
           <Image
             src={sustainabilityContent.image}
             alt={sustainabilityContent.imageAlt}
-            width={520}
-            height={560}
-            className="h-[560px] w-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, (max-width: 1325px) 50vw, 620px"
           />
         </div>
 
@@ -23,7 +23,7 @@ export function SustainabilitySection() {
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-green)]">
             {sustainabilityContent.label}
           </p>
-          <h2 className="ezway-display max-w-[480px] text-[42px] leading-[0.95] text-[var(--ezway-black)]">
+          <h2 className="ezway-display max-w-[480px] text-[26px] leading-[1] text-[var(--ezway-black)] md:text-[34px] lg:text-[42px] lg:leading-[0.95]">
             {sustainabilityContent.heading}
           </h2>
           <p className="mt-5 max-w-[460px] text-[14px] leading-[1.7] text-[var(--ezway-muted)]">

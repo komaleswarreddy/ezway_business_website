@@ -3,7 +3,7 @@ import { confidenceContent } from "@/data/home-content";
 
 export function ConfidenceSection() {
   return (
-    <section className="relative overflow-hidden px-16 py-20">
+    <section className="relative overflow-hidden px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
       {/* City at night background */}
       <Image
         src={confidenceContent.background}
@@ -18,11 +18,11 @@ export function ConfidenceSection() {
 
       <div className="relative">
         {/* Centered header */}
-        <div className="mx-auto mb-12 max-w-[720px] text-center">
+        <div className="mx-auto mb-8 max-w-[720px] text-center md:mb-10 lg:mb-12">
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-orange)]">
             {confidenceContent.label}
           </p>
-          <h2 className="ezway-display text-[48px] leading-[0.95] text-white">
+          <h2 className="ezway-display text-[28px] leading-[1] text-white md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
             {confidenceContent.heading}
           </h2>
           <p className="mx-auto mt-5 max-w-[560px] text-[14px] leading-[1.7] text-[#c8c8c8]">
@@ -31,7 +31,7 @@ export function ConfidenceSection() {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
           {confidenceContent.items.map((item) => (
             <div
               key={item.title}

@@ -8,11 +8,13 @@ export function FinalCtaSection() {
       id="get-started"
       className="ezway-section bg-white text-center text-[var(--ezway-black)]"
     >
-      <h2 className="ezway-display text-[48px]">{finalCtaContent.heading}</h2>
+      <h2 className="ezway-display text-[28px] md:text-[38px] lg:text-[48px]">
+        {finalCtaContent.heading}
+      </h2>
       <p className="mx-auto mt-4 max-w-lg text-[var(--ezway-muted)]">
         {finalCtaContent.subtext}
       </p>
-      <div className="mt-8 flex justify-center gap-4">
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
         <Link href="#" className="ezway-btn-primary inline-flex items-center gap-2">
           <Image
             src="/assets/icons/impact/icon-car.png"
@@ -24,7 +26,7 @@ export function FinalCtaSection() {
           {finalCtaContent.primaryCta}
         </Link>
         <Link
-          href="#careers"
+          href="/careers"
           className="inline-flex items-center rounded-full bg-[var(--ezway-black)] px-7 py-3.5 text-[15px] font-bold text-white"
         >
           {finalCtaContent.secondaryCta}

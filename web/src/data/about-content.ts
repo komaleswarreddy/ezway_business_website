@@ -81,29 +81,51 @@ export const teamMembers = {
   founders: [
     {
       num: "01",
-      role: "CO-FOUNDER & CEO",
-      name: "Name 1",
-      city: "Bengaluru",
+      role: "FOUNDER",
+      name: "Lokesh Gulivindala",
+      photo: "/assets/images/team/lokesh-gulivindala.png",
       badge: "FOUNDER",
     },
     {
       num: "02",
-      role: "CO-FOUNDER & CTO",
-      name: "Name 2",
-      city: "Bengaluru",
+      role: "CO-FOUNDER & COO",
+      name: "Kuladeep Korada",
+      photo: "/assets/images/team/kuladeep-korada.png",
       badge: "FOUNDER",
     },
   ],
   leadership: [
-    { num: "03", role: "HEAD OF GROWTH", name: "Name 3", city: "Mumbai" },
+    {
+      num: "03",
+      role: "CTO",
+      name: "Venkatesh Ponnuru",
+      photo: "/assets/images/team/venkatesh-ponnuru.png",
+    },
     {
       num: "04",
-      role: "HEAD OF SAFETY & TRUST",
-      name: "Name 4",
-      city: "Ahmedabad",
+      role: "CPTO",
+      name: "Mohan Bala Nagendra Veera",
+      photo: "/assets/images/team/mohan-bala-nagendra-veera.jpeg",
+      photoZoom: 1.12,
     },
-    { num: "05", role: "LEAD DESIGNER", name: "Name 5", city: "Chennai" },
-    { num: "06", role: "COMMUNITY & OPS", name: "Name 6", city: "Delhi" },
+    {
+      num: "05",
+      role: "FDE",
+      name: "Komaleswarreddy Baram",
+      photo: "/assets/images/team/komaleswarreddy-baram.png",
+    },
+    {
+      num: "06",
+      role: "SOCIAL MEDIA MANAGER",
+      name: "Durga Prakash Uyyala",
+      photo: "/assets/images/team/durga-prakash-uyyala.jpeg",
+    },
+    {
+      num: "07",
+      role: "DIGITAL MARKETING MANAGER",
+      name: "Kara Ranjit Kumar",
+      photo: "/assets/images/team/kara-ranjit-kumar.png",
+    },
   ],
 };
 
