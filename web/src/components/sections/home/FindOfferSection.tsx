@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { findOfferContent } from "@/data/home-content";
+import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { hoverLift } from "@/components/motion/variants";
 
 function FeatureIcons({ index }: { index: number }) {
   const icons = [
@@ -45,9 +49,10 @@ export function FindOfferSection() {
   const { top, bottomLeft, bottomRight } = findOfferContent;
 
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
+    <section className="bg-[var(--ezway-light-gray)]">
+      <div className="ezway-container px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
       {/* Section header — centered */}
-      <div className="mb-8 text-center md:mb-10">
+      <Reveal className="mb-8 text-center md:mb-10">
         <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-orange)]">
           {findOfferContent.label}
         </p>
@@ -58,10 +63,10 @@ export function FindOfferSection() {
             </span>
           ))}
         </h2>
-      </div>
+      </Reveal>
 
       {/* Top card — image left, content right */}
-      <div className="mb-5 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:p-7 lg:p-8">
+      <Reveal className="mb-5 overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:p-7 lg:p-8">
         <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-10">
           <div className="overflow-hidden rounded-[22px]">
             <Image
@@ -103,12 +108,12 @@ export function FindOfferSection() {
             </ul>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* Bottom row */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <StaggerReveal className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Drivers card */}
-        <div className="relative overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-7 pt-7 md:px-8 md:pb-8 md:pt-8">
+        <StaggerItem whileHover={hoverLift} className="relative overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-7 pt-7 md:px-8 md:pb-8 md:pt-8">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_auto] md:items-end md:gap-4">
             <div className="pb-2">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5">
@@ -152,10 +157,10 @@ export function FindOfferSection() {
               className="mx-auto h-[220px] w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] md:mx-0 md:h-[320px]"
             />
           </div>
-        </div>
+        </StaggerItem>
 
         {/* Community stats card */}
-        <div className="overflow-hidden rounded-[28px] bg-white px-6 pb-7 pt-7 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:px-8 md:pb-8 md:pt-8">
+        <StaggerItem whileHover={hoverLift} className="overflow-hidden rounded-[28px] bg-white px-6 pb-7 pt-7 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:px-8 md:pb-8 md:pt-8">
           <h3 className="text-[22px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-[var(--ezway-black)]">
             {bottomRight.heading}
           </h3>
@@ -169,11 +174,10 @@ export function FindOfferSection() {
                 key={stat.label}
                 className="rounded-[16px] bg-[#f5f5f5] px-4 py-4"
               >
-                <p
-                  className={`text-[22px] font-black leading-none ${statAccentClass[stat.accent]}`}
-                >
-                  {stat.value}
-                </p>
+                <AnimatedCounter
+                  value={stat.value}
+                  className={`block text-[22px] font-black leading-none ${statAccentClass[stat.accent]}`}
+                />
                 <p className="mt-1.5 text-[12px] text-[var(--ezway-muted)]">
                   {stat.label}
                 </p>
@@ -190,7 +194,8 @@ export function FindOfferSection() {
               className="h-[180px] w-full object-cover"
             />
           </div>
-        </div>
+        </StaggerItem>
+      </StaggerReveal>
       </div>
     </section>
   );

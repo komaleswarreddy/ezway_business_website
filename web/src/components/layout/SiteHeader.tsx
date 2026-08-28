@@ -1,9 +1,11 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { homeNav } from "@/data/home-content";
+import { EASE } from "@/components/motion/variants";
 
 function MenuIcon() {
   return (
@@ -38,7 +40,8 @@ export function SiteHeader({ activePath = "/" }: { activePath?: string }) {
     href === activePath || (href !== "/" && activePath.startsWith(href));
 
   return (
-    <header className="relative flex items-center justify-between px-5 py-6 md:px-10 lg:px-16 lg:py-8">
+    <header className="relative">
+      <div className="ezway-container flex items-center justify-between px-5 py-6 md:px-10 lg:px-16 lg:py-8">
       <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
         <Image
           src="/assets/logo/ezway-logo.png"
@@ -69,7 +72,7 @@ export function SiteHeader({ activePath = "/" }: { activePath?: string }) {
 
       <Link
         href="/#get-started"
-        className="ezway-btn-primary hidden shrink-0 lg:inline-flex"
+        className="ezway-btn-primary hidden shrink-0 transition-transform duration-200 hover:scale-105 active:scale-95 lg:inline-flex"
       >
         Get Started
       </Link>
@@ -80,39 +83,48 @@ export function SiteHeader({ activePath = "/" }: { activePath?: string }) {
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[var(--ezway-nav-bg)] text-white lg:hidden"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[var(--ezway-nav-bg)] text-white transition-transform duration-200 active:scale-90 lg:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>
+      </div>
 
       {/* Mobile / tablet dropdown panel */}
-      {open && (
-        <div className="absolute inset-x-5 top-full z-50 mt-2 rounded-[20px] border border-white/10 bg-[var(--ezway-nav-bg)] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.45)] md:inset-x-10 lg:hidden">
-          <nav className="flex flex-col gap-1">
-            {homeNav.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={`rounded-[14px] px-4 py-3 text-[15px] font-semibold transition-colors ${
-                  isActive(link.href)
-                    ? "bg-[var(--ezway-orange)] text-white"
-                    : "text-[var(--ezway-muted)] hover:bg-white/5 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <Link
-            href="/#get-started"
-            onClick={() => setOpen(false)}
-            className="ezway-btn-primary mt-3 w-full"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: EASE }}
+            className="absolute inset-x-5 top-full z-50 mt-2 rounded-[20px] border border-white/10 bg-[var(--ezway-nav-bg)] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.45)] md:inset-x-10 lg:hidden"
           >
-            Get Started
-          </Link>
-        </div>
-      )}
+            <nav className="flex flex-col gap-1">
+              {homeNav.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`rounded-[14px] px-4 py-3 text-[15px] font-semibold transition-colors ${
+                    isActive(link.href)
+                      ? "bg-[var(--ezway-orange)] text-white"
+                      : "text-[var(--ezway-muted)] hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <Link
+              href="/#get-started"
+              onClick={() => setOpen(false)}
+              className="ezway-btn-primary mt-3 w-full"
+            >
+              Get Started
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -1,10 +1,14 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useId, useState } from "react";
 import {
   applicationFormContent,
   openPositionsContent,
 } from "@/data/careers-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { EASE } from "@/components/motion/variants";
 
 function BoltIcon() {
   return (
@@ -150,7 +154,7 @@ function JobCard({ job }: { job: (typeof openPositionsContent.jobs)[number] }) {
           {!open && (
             <button
               type="button"
-              className="flex-1 rounded-full bg-[var(--ezway-green)] px-6 py-2.5 text-[14px] font-bold text-white transition-opacity hover:opacity-90 sm:flex-none"
+              className="flex-1 rounded-full bg-[var(--ezway-green)] px-6 py-2.5 text-[14px] font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95 sm:flex-none"
             >
               {job.applyLabel}
             </button>
@@ -160,47 +164,54 @@ function JobCard({ job }: { job: (typeof openPositionsContent.jobs)[number] }) {
             aria-expanded={open}
             aria-label={open ? "Hide role details" : "Show role details"}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--ezway-light-gray)] transition-colors hover:bg-[#ececec]"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--ezway-light-gray)] transition-all duration-200 hover:bg-[#ececec] active:scale-90"
           >
             <ChevronIcon open={open} />
           </button>
         </div>
       </div>
 
-      {open && (
-        <>
-          <p className="mt-5 text-[14px] leading-[1.7] text-[var(--ezway-muted)]">
-            {job.description}
-          </p>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="details"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <p className="mt-5 text-[14px] leading-[1.7] text-[var(--ezway-muted)]">
+              {job.description}
+            </p>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-[13px] font-semibold text-[var(--ezway-muted)]">
-              Skills:
-            </span>
-            {job.skills.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full bg-[#e6f7ec] px-3 py-1 text-[12px] font-semibold text-[var(--ezway-green)]"
-              >
-                {skill}
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-[13px] font-semibold text-[var(--ezway-muted)]">
+                Skills:
               </span>
-            ))}
-          </div>
+              {job.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="rounded-full bg-[#e6f7ec] px-3 py-1 text-[12px] font-semibold text-[var(--ezway-green)]"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
 
-          <ApplicationForm jobTitle={job.title} />
-        </>
-      )}
+            <ApplicationForm jobTitle={job.title} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 export function OpenPositionsSection() {
   return (
-    <section
-      id="careers-open-positions"
-      className="bg-white px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20"
-    >
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:justify-between sm:gap-6">
+    <section id="careers-open-positions" className="bg-white">
+      <div className="ezway-container px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
+      <Reveal className="flex flex-col items-start gap-4 sm:flex-row sm:justify-between sm:gap-6">
         <div>
           <p className="ezway-label mb-3">{openPositionsContent.label}</p>
           <h2 className="ezway-display text-[26px] leading-[1] text-[var(--ezway-black)] md:text-[34px] lg:text-[42px] lg:leading-[0.95]">
@@ -210,12 +221,15 @@ export function OpenPositionsSection() {
         <span className="shrink-0 rounded-full bg-[#fff0e0] px-4 py-2 text-[13px] font-bold text-[var(--ezway-orange)] sm:mt-2">
           {openPositionsContent.rolesOpenBadge}
         </span>
-      </div>
+      </Reveal>
 
-      <div className="mt-8 space-y-4 md:mt-10">
+      <StaggerReveal className="mt-8 space-y-4 md:mt-10">
         {openPositionsContent.jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
+          <StaggerItem key={job.id}>
+            <JobCard job={job} />
+          </StaggerItem>
         ))}
+      </StaggerReveal>
       </div>
     </section>
   );

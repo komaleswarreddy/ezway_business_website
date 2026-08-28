@@ -6,6 +6,8 @@ import {
   contactFormContent,
   followUsContent,
 } from "@/data/contact-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { fadeInLeft, fadeInRight } from "@/components/motion/variants";
 
 function PinIcon() {
   return (
@@ -79,6 +81,14 @@ function YouTubeIcon() {
   );
 }
 
+function LinkedInIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+      <path d="M6 9h3v10H6V9zm1.5-4.5A1.8 1.8 0 1 1 6 6.3a1.8 1.8 0 0 1 1.5-1.8zM10 9h2.9v1.4h.1c.4-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.2 3.9 5V19H16v-4.6c0-1.1 0-2.5-1.5-2.5-1.6 0-1.9 1.3-1.9 2.5V19H10V9z" />
+    </svg>
+  );
+}
+
 function SendIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -103,6 +113,7 @@ const contactIconMap = {
 const socialIconMap = {
   instagram: InstagramIcon,
   facebook: FacebookIcon,
+  linkedin: LinkedInIcon,
   youtube: YouTubeIcon,
 };
 
@@ -176,7 +187,7 @@ function SendMessageCard() {
         </div>
         <button
           type="submit"
-          className="ezway-btn-primary mt-2 w-full py-3.5 text-[15px]"
+          className="ezway-btn-primary mt-2 w-full py-3.5 text-[15px] transition-transform duration-200 hover:scale-[1.02] active:scale-95"
         >
           <SendIcon />
           {submitLabel}
@@ -204,16 +215,30 @@ function ContactDetailsCard() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--ezway-orange)]">
                   {item.label}
                 </p>
-                {item.lines.map((line, i) => (
-                  <p
-                    key={line}
-                    className={`text-[13.5px] leading-[1.5] ${
-                      i === 0 ? "text-white" : "text-[#a1a1a1]"
-                    }`}
-                  >
-                    {line}
-                  </p>
-                ))}
+                {item.lines.map((line, i) =>
+                  item.href ? (
+                    <a
+                      key={line}
+                      href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className={`block text-[13.5px] leading-[1.5] hover:underline ${
+                        i === 0 ? "text-white" : "text-[#a1a1a1]"
+                      }`}
+                    >
+                      {line}
+                    </a>
+                  ) : (
+                    <p
+                      key={line}
+                      className={`text-[13.5px] leading-[1.5] ${
+                        i === 0 ? "text-white" : "text-[#a1a1a1]"
+                      }`}
+                    >
+                      {line}
+                    </p>
+                  )
+                )}
               </div>
             </div>
           );
@@ -233,9 +258,12 @@ function FollowUsCard() {
         {followUsContent.items.map((item) => {
           const Icon = socialIconMap[item.icon];
           return (
-            <div
+            <a
               key={item.handle}
-              className="flex items-center gap-3 rounded-[16px] bg-white/10 px-4 py-3"
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-[16px] bg-white/10 px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/15"
             >
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/25 text-white">
                 <Icon />
@@ -244,7 +272,7 @@ function FollowUsCard() {
                 <p className="text-[13.5px] font-bold text-white">{item.handle}</p>
                 <p className="text-[12px] text-white/70">{item.platform}</p>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>
@@ -254,13 +282,15 @@ function FollowUsCard() {
 
 export function ContactFormSection() {
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-12 lg:px-16 lg:py-16">
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <SendMessageCard />
-        <div className="space-y-6">
+    <section className="bg-[var(--ezway-light-gray)]">
+      <div className="ezway-container grid grid-cols-1 items-start gap-6 px-5 py-10 md:px-10 md:py-12 lg:grid-cols-[1.5fr_1fr] lg:px-16 lg:py-16">
+        <Reveal variants={fadeInLeft}>
+          <SendMessageCard />
+        </Reveal>
+        <Reveal variants={fadeInRight} className="space-y-6">
           <ContactDetailsCard />
           <FollowUsCard />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

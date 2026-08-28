@@ -26,22 +26,24 @@ export const contactDetailsContent = {
     {
       icon: "pin" as const,
       label: "ADDRESS",
-      lines: ["12th Floor, Tower B, UB City", "Bangalore – 560001, Karnataka"],
+      lines: ["Chipurupalle, Vizianagaram", "Andhra Pradesh, India - 535128"],
     },
     {
       icon: "phone" as const,
       label: "PHONE",
-      lines: ["+91 80 4567 8900", "Mon–Sat, 9 AM – 7 PM IST"],
+      lines: ["+91 94932 30191"],
+      href: "tel:+919493230191",
     },
     {
       icon: "mail" as const,
       label: "EMAIL",
-      lines: ["support@ezway.in", "help@ezway.in"],
+      lines: ["Email available soon"],
     },
     {
       icon: "globe" as const,
       label: "WEBSITE",
-      lines: ["www.ezway.in"],
+      lines: ["ezway.in"],
+      href: "https://ezway.in/",
     },
   ],
 };
@@ -49,8 +51,29 @@ export const contactDetailsContent = {
 export const followUsContent = {
   heading: "FOLLOW US",
   items: [
-    { icon: "instagram" as const, handle: "@eZwayIndia", platform: "Instagram" },
-    { icon: "facebook" as const, handle: "eZway India", platform: "Facebook" },
-    { icon: "youtube" as const, handle: "eZway Official", platform: "YouTube" },
+    {
+      icon: "instagram" as const,
+      handle: "@ezway_app",
+      platform: "Instagram",
+      href: "https://www.instagram.com/ezway_app?igsi=MTg4MXlmeHFkdWZ0dg==",
+    },
+    {
+      icon: "facebook" as const,
+      handle: "eZway",
+      platform: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61591798813237",
+    },
+    {
+      icon: "linkedin" as const,
+      handle: "eZway Ridesharing",
+      platform: "LinkedIn",
+      href: "https://www.linkedin.com/company/ezwayridesharing/",
+    },
+    {
+      icon: "youtube" as const,
+      handle: "@eZwayApp",
+      platform: "YouTube",
+      href: "https://www.youtube.com/@eZwayApp",
+    },
   ],
 };

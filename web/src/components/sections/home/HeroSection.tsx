@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { heroContent } from "@/data/home-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { fadeInUp, scaleIn } from "@/components/motion/variants";
 
 function ScrollIndicator() {
   return (
@@ -37,35 +40,40 @@ function ScrollIndicator() {
 
 export function HeroSection() {
   return (
-    <section className="relative px-5 pb-6 pt-6 md:px-10 md:pt-8 lg:px-16 lg:pb-6 lg:pt-2">
+    <section className="relative">
+      <div className="ezway-container px-5 pb-6 pt-6 md:px-10 md:pt-8 lg:px-16 lg:pb-6 lg:pt-2">
       <div className="relative z-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-8">
         {/* Left column */}
-        <div className="max-w-[520px]">
-          <h1 className="ezway-display text-[38px] leading-[1.02] md:text-[52px] md:leading-[0.98] lg:text-[64px] lg:leading-[0.95]">
-            {heroContent.headline.map((line) => (
-              <span
-                key={line.text}
-                className={`block ${
-                  line.accent ? "text-[var(--ezway-orange)]" : "text-white"
-                }`}
-              >
-                {line.text}
-              </span>
-            ))}
-          </h1>
+        <StaggerReveal trigger="mount" stagger={0.12} className="max-w-[520px]">
+          <StaggerItem variants={fadeInUp}>
+            <h1 className="ezway-display text-[38px] leading-[1.02] md:text-[52px] md:leading-[0.98] lg:text-[64px] lg:leading-[0.95]">
+              {heroContent.headline.map((line) => (
+                <span
+                  key={line.text}
+                  className={`block ${
+                    line.accent ? "text-[var(--ezway-orange)]" : "text-white"
+                  }`}
+                >
+                  {line.text}
+                </span>
+              ))}
+            </h1>
+          </StaggerItem>
 
-          <p className="mt-5 max-w-[480px] text-[14px] leading-[1.65] text-[var(--ezway-muted)] md:mt-6 md:text-[15px] md:leading-[1.7]">
-            {heroContent.subtext}
-          </p>
+          <StaggerItem>
+            <p className="mt-5 max-w-[480px] text-[14px] leading-[1.65] text-[var(--ezway-muted)] md:mt-6 md:text-[15px] md:leading-[1.7]">
+              {heroContent.subtext}
+            </p>
+          </StaggerItem>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3 md:mt-8">
+          <StaggerItem as="div" className="mt-7 flex flex-wrap items-center gap-3 md:mt-8">
             <Link href="#get-started" className="shrink-0">
               <Image
                 src={heroContent.findRideBtn}
                 alt="Find a Ride"
                 width={170}
                 height={52}
-                className="h-[44px] w-auto md:h-[52px]"
+                className="h-[44px] w-auto transition-transform duration-200 hover:scale-105 active:scale-95 md:h-[52px]"
                 priority
               />
             </Link>
@@ -75,13 +83,13 @@ export function HeroSection() {
                 alt="Offer a Ride"
                 width={170}
                 height={52}
-                className="h-[44px] w-auto md:h-[52px]"
+                className="h-[44px] w-auto transition-transform duration-200 hover:scale-105 active:scale-95 md:h-[52px]"
                 priority
               />
             </Link>
-          </div>
+          </StaggerItem>
 
-          <div className="mt-5 flex flex-wrap gap-3 md:mt-6">
+          <StaggerItem as="div" className="mt-5 flex flex-wrap gap-3 md:mt-6">
             <Image
               src="/assets/icons/badge-google-play.png"
               alt="Get it on Google Play"
@@ -96,11 +104,16 @@ export function HeroSection() {
               height={40}
               className="h-9 w-auto md:h-10"
             />
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerReveal>
 
         {/* Right column — full phone stack, desktop only (complex absolute layout) */}
-        <div className="relative mx-auto hidden h-[600px] w-full max-w-[560px] lg:block">
+        <Reveal
+          trigger="mount"
+          variants={scaleIn}
+          delay={0.25}
+          className="relative mx-auto hidden h-[600px] w-full max-w-[560px] lg:block"
+        >
           <div className="absolute left-[18px] top-[6px] z-10">
             <Image
               src="/assets/hero/ezway-splash-paths.png"
@@ -139,7 +152,7 @@ export function HeroSection() {
             height={36}
             className="absolute right-[68px] top-[48px] z-40 h-auto w-[128px]"
           />
-        </div>
+        </Reveal>
 
         {/* Mobile / tablet — simplified single phone mockup */}
         <div className="mx-auto flex w-full max-w-[240px] justify-center lg:hidden">
@@ -155,6 +168,7 @@ export function HeroSection() {
       </div>
 
       <ScrollIndicator />
+      </div>
     </section>
   );
 }
