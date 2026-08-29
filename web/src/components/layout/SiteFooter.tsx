@@ -122,6 +122,17 @@ function LinkedInIcon() {
   );
 }
 
+// Known footer link labels that already have a real page — everything else
+// (Help Centre, Safety Tips, Cookie Policy, etc.) has no page yet, so it
+// stays a "#" placeholder.
+const footerLinkHrefMap: Record<string, string> = {
+  About: "/about",
+  Careers: "/careers",
+  "Contact Us": "/contact",
+  "Terms of Service": "/terms",
+  "Privacy Policy": "/privacy",
+};
+
 const footerSocialIconMap = {
   instagram: InstagramIcon,
   facebook: FacebookIcon,
@@ -210,7 +221,7 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
               {col.links.map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
+                    href={footerLinkHrefMap[item] ?? "#"}
                     className="text-sm text-[var(--ezway-muted)] transition-colors duration-200 hover:text-white"
                   >
                     {item}

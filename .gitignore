@@ -32,3 +32,6 @@ design-handoff/
 *.pdf
 /Set app color theme*.png
 /Image (City at night).png
+
+# Separate backend repo (own git history, own remote) — never nest it here
+ezway_backend/

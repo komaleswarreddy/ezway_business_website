@@ -1,8 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { testimonialsContent } from "@/data/home-content";
 import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
 import { hoverLift } from "@/components/motion/variants";
+import { getHomeContent, type WebHomeStats, type WebTestimonial } from "@/lib/api";
+
+type Card = { quote: string; author: string; role: string; variant: "dark" | "light" };
+
+// Fallback used only if the backend can't be reached, so the section never renders empty.
+const FALLBACK_CARDS: Card[] = testimonialsContent.items;
+const FALLBACK_STATS: WebHomeStats = {
+  ridesCompleted: "50000+",
+  verifiedMembers: "10000+",
+  co2Kg: "5000",
+  cities: "6",
+  rating: "4.8",
+  communitySavingsInr: "0",
+  ngoDonatedInr: "0",
+};
 
 function StarIcon() {
   return (
@@ -118,7 +136,39 @@ function TestimonialCard({
   );
 }
 
+function toCards(testimonials: WebTestimonial[]): Card[] {
+  return testimonials.map((t, i) => ({
+    quote: t.quote,
+    author: t.author,
+    role: t.role,
+    variant: i === 0 ? "dark" : "light",
+  }));
+}
+
 export function TestimonialsSection() {
+  const [cards, setCards] = useState<Card[]>(FALLBACK_CARDS);
+  const [stats, setStats] = useState<WebHomeStats>(FALLBACK_STATS);
+
+  useEffect(() => {
+    let cancelled = false;
+    getHomeContent().then((home) => {
+      if (cancelled || !home) return;
+      if (home.testimonials.length > 0) setCards(toCards(home.testimonials));
+      setStats(home.stats);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const ratingSummary = `${stats.rating}/5 (Based on 1,000+ reviews)`;
+  const statsBar = [
+    { icon: "star" as const, value: `${stats.rating}/5`, label: "Rating" },
+    { icon: "car" as const, value: stats.ridesCompleted, label: "Rides Completed" },
+    { icon: "heart" as const, value: stats.verifiedMembers, label: "Verified Members" },
+    { icon: "leaf" as const, value: `${stats.co2Kg} kg`, label: "CO2 Saved" },
+  ];
+
   return (
     <section className="bg-white text-[var(--ezway-black)]">
       <div className="ezway-container ezway-section">
@@ -132,13 +182,13 @@ export function TestimonialsSection() {
         <div className="hidden shrink-0 text-right sm:block">
           <StarRow />
           <p className="mt-2 text-sm text-[var(--ezway-muted)]">
-            {testimonialsContent.ratingSummary}
+            {ratingSummary}
           </p>
         </div>
       </Reveal>
 
       <StaggerReveal className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-        {testimonialsContent.items.map((item) => (
+        {cards.map((item) => (
           <StaggerItem key={item.author} whileHover={hoverLift}>
             <TestimonialCard {...item} />
           </StaggerItem>
@@ -159,7 +209,7 @@ export function TestimonialsSection() {
       </div>
 
       <StaggerReveal className="mt-8 grid grid-cols-2 overflow-hidden rounded-[20px] bg-[var(--ezway-orange)] md:grid-cols-4">
-        {testimonialsContent.statsBar.map((stat, index) => {
+        {statsBar.map((stat, index) => {
           const Icon = statsBarIconMap[stat.icon];
           return (
             <StaggerItem
