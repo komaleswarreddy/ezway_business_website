@@ -1,11 +1,14 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useState } from "react";
 import {
   contactDetailsContent,
   contactFormContent,
   followUsContent,
 } from "@/data/contact-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { fadeInLeft, fadeInRight } from "@/components/motion/variants";
+import { submitContactForm } from "@/lib/api";
 
 function PinIcon() {
   return (
@@ -79,6 +82,14 @@ function YouTubeIcon() {
   );
 }
 
+function LinkedInIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+      <path d="M6 9h3v10H6V9zm1.5-4.5A1.8 1.8 0 1 1 6 6.3a1.8 1.8 0 0 1 1.5-1.8zM10 9h2.9v1.4h.1c.4-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.2 3.9 5V19H16v-4.6c0-1.1 0-2.5-1.5-2.5-1.6 0-1.9 1.3-1.9 2.5V19H10V9z" />
+    </svg>
+  );
+}
+
 function SendIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -103,6 +114,7 @@ const contactIconMap = {
 const socialIconMap = {
   instagram: InstagramIcon,
   facebook: FacebookIcon,
+  linkedin: LinkedInIcon,
   youtube: YouTubeIcon,
 };
 
@@ -110,10 +122,16 @@ function FormField({
   label,
   placeholder,
   type = "text",
+  value,
+  onChange,
+  required,
 }: {
   label: string;
   placeholder: string;
   type?: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
 }) {
   const id = useId();
   return (
@@ -128,15 +146,71 @@ function FormField({
         id={id}
         type={type}
         placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
         className="w-full rounded-[10px] border border-[#e5e5e5] bg-[#f7f7f7] px-4 py-2.5 text-[14px] text-[var(--ezway-black)] placeholder-[#b3b3b3] outline-none transition-colors focus:border-[var(--ezway-orange)]"
       />
     </div>
   );
 }
 
+const EMPTY_FORM = { fullName: "", email: "", phone: "", subject: "", message: "" };
+
 function SendMessageCard() {
   const { fields, submitLabel } = contactFormContent;
   const messageId = useId();
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const update = (key: keyof typeof form) => (value: string) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const result = await submitContactForm({
+      fullName: form.fullName,
+      email: form.email,
+      phone: form.phone || undefined,
+      subject: form.subject || undefined,
+      message: form.message,
+    });
+
+    if (result.ok) {
+      setStatus("success");
+      setForm(EMPTY_FORM);
+    } else {
+      setStatus("error");
+      setErrorMessage(result.error);
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center rounded-[24px] bg-white p-8 text-center">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e6f7ec] text-2xl text-[var(--ezway-green)]">
+          ✓
+        </span>
+        <h2 className="ezway-display mt-5 text-[20px] text-[var(--ezway-black)]">
+          MESSAGE SENT.
+        </h2>
+        <p className="mt-2 max-w-xs text-[13.5px] text-[var(--ezway-muted)]">
+          Thanks for reaching out — we&apos;ll get back to you within 24 hours.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="mt-6 text-[13.5px] font-bold text-[var(--ezway-orange)] hover:underline"
+        >
+          Send another message
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-[24px] bg-white p-5 md:p-6 lg:p-8">
@@ -147,18 +221,38 @@ function SendMessageCard() {
         {contactFormContent.subtext}
       </p>
 
-      <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FormField label={fields.fullName.label} placeholder={fields.fullName.placeholder} />
+          <FormField
+            label={fields.fullName.label}
+            placeholder={fields.fullName.placeholder}
+            value={form.fullName}
+            onChange={update("fullName")}
+            required
+          />
           <FormField
             label={fields.email.label}
             placeholder={fields.email.placeholder}
             type="email"
+            value={form.email}
+            onChange={update("email")}
+            required
           />
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FormField label={fields.phone.label} placeholder={fields.phone.placeholder} type="tel" />
-          <FormField label={fields.subject.label} placeholder={fields.subject.placeholder} />
+          <FormField
+            label={fields.phone.label}
+            placeholder={fields.phone.placeholder}
+            type="tel"
+            value={form.phone}
+            onChange={update("phone")}
+          />
+          <FormField
+            label={fields.subject.label}
+            placeholder={fields.subject.placeholder}
+            value={form.subject}
+            onChange={update("subject")}
+          />
         </div>
         <div>
           <label
@@ -171,15 +265,26 @@ function SendMessageCard() {
             id={messageId}
             rows={4}
             placeholder={fields.message.placeholder}
+            value={form.message}
+            onChange={(e) => update("message")(e.target.value)}
+            required
             className="w-full resize-none rounded-[10px] border border-[#e5e5e5] bg-[#f7f7f7] px-4 py-3 text-[14px] text-[var(--ezway-black)] placeholder-[#b3b3b3] outline-none transition-colors focus:border-[var(--ezway-orange)]"
           />
         </div>
+
+        {status === "error" && (
+          <p className="rounded-[10px] bg-[#fdecea] px-4 py-3 text-[13px] text-[#c0392b]">
+            {errorMessage}
+          </p>
+        )}
+
         <button
           type="submit"
-          className="ezway-btn-primary mt-2 w-full py-3.5 text-[15px]"
+          disabled={status === "submitting"}
+          className="ezway-btn-primary mt-2 w-full py-3.5 text-[15px] transition-transform duration-200 hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
         >
           <SendIcon />
-          {submitLabel}
+          {status === "submitting" ? "Sending..." : submitLabel}
         </button>
       </form>
     </div>
@@ -204,16 +309,30 @@ function ContactDetailsCard() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--ezway-orange)]">
                   {item.label}
                 </p>
-                {item.lines.map((line, i) => (
-                  <p
-                    key={line}
-                    className={`text-[13.5px] leading-[1.5] ${
-                      i === 0 ? "text-white" : "text-[#a1a1a1]"
-                    }`}
-                  >
-                    {line}
-                  </p>
-                ))}
+                {item.lines.map((line, i) =>
+                  item.href ? (
+                    <a
+                      key={line}
+                      href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className={`block text-[13.5px] leading-[1.5] hover:underline ${
+                        i === 0 ? "text-white" : "text-[#a1a1a1]"
+                      }`}
+                    >
+                      {line}
+                    </a>
+                  ) : (
+                    <p
+                      key={line}
+                      className={`text-[13.5px] leading-[1.5] ${
+                        i === 0 ? "text-white" : "text-[#a1a1a1]"
+                      }`}
+                    >
+                      {line}
+                    </p>
+                  )
+                )}
               </div>
             </div>
           );
@@ -233,9 +352,12 @@ function FollowUsCard() {
         {followUsContent.items.map((item) => {
           const Icon = socialIconMap[item.icon];
           return (
-            <div
+            <a
               key={item.handle}
-              className="flex items-center gap-3 rounded-[16px] bg-white/10 px-4 py-3"
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-[16px] bg-white/10 px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/15"
             >
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/25 text-white">
                 <Icon />
@@ -244,7 +366,7 @@ function FollowUsCard() {
                 <p className="text-[13.5px] font-bold text-white">{item.handle}</p>
                 <p className="text-[12px] text-white/70">{item.platform}</p>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>
@@ -254,13 +376,15 @@ function FollowUsCard() {
 
 export function ContactFormSection() {
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-12 lg:px-16 lg:py-16">
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <SendMessageCard />
-        <div className="space-y-6">
+    <section className="bg-[var(--ezway-light-gray)]">
+      <div className="ezway-container grid grid-cols-1 items-start gap-6 px-5 py-10 md:px-10 md:py-12 lg:grid-cols-[1.5fr_1fr] lg:px-16 lg:py-16">
+        <Reveal variants={fadeInLeft}>
+          <SendMessageCard />
+        </Reveal>
+        <Reveal variants={fadeInRight} className="space-y-6">
           <ContactDetailsCard />
           <FollowUsCard />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

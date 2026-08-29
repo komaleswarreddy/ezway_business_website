@@ -1,5 +1,8 @@
 import Image from "next/image";
 import { featuresContent } from "@/data/home-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { hoverLift } from "@/components/motion/variants";
 
 function ShieldIcon() {
   return (
@@ -53,9 +56,10 @@ export function FeaturesSection() {
   const [c1, c2, c3, c4] = featuresContent.cards;
 
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
+    <section className="bg-[var(--ezway-light-gray)]">
+      <div className="ezway-container px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
       {/* Header */}
-      <div className="mb-8 grid grid-cols-1 gap-4 md:mb-10 lg:grid-cols-[1fr_340px] lg:items-start lg:gap-10">
+      <Reveal as="div" className="mb-8 grid grid-cols-1 gap-4 md:mb-10 lg:grid-cols-[1fr_340px] lg:items-start lg:gap-10">
         <div>
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-[var(--ezway-orange)]">
             {featuresContent.label}
@@ -67,12 +71,12 @@ export function FeaturesSection() {
         <p className="text-[14px] leading-[1.65] text-[var(--ezway-muted)] lg:pt-2">
           {featuresContent.intro}
         </p>
-      </div>
+      </Reveal>
 
       {/* Top row — wide left, narrow right */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.68fr_1fr]">
+      <StaggerReveal as="div" className="grid grid-cols-1 gap-5 lg:grid-cols-[1.68fr_1fr]">
         {/* Card 01 */}
-        <div className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:px-8 lg:pt-8">
+        <StaggerItem whileHover={hoverLift} className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-black)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:px-8 lg:pt-8">
           <span className="pointer-events-none absolute right-6 top-2 select-none text-[90px] font-black leading-none text-white/[0.05] md:text-[120px] lg:text-[148px]">
             {c1.num}
           </span>
@@ -101,10 +105,10 @@ export function FeaturesSection() {
               />
             ))}
           </div>
-        </div>
+        </StaggerItem>
 
         {/* Card 02 */}
-        <div className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-orange)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:pb-7 lg:pt-8">
+        <StaggerItem whileHover={hoverLift} className="relative min-h-[440px] overflow-hidden rounded-[28px] bg-[var(--ezway-orange)] px-6 pb-6 pt-7 md:min-h-[480px] md:px-7 lg:min-h-[520px] lg:pb-7 lg:pt-8">
           <span className="pointer-events-none absolute left-5 top-2 select-none text-[90px] font-black leading-none text-white/10 md:text-[120px] lg:text-[148px]">
             {c2.num}
           </span>
@@ -134,13 +138,13 @@ export function FeaturesSection() {
               {c2.verifiedLabel}
             </span>
           </div>
-        </div>
-      </div>
+        </StaggerItem>
+      </StaggerReveal>
 
       {/* Bottom row — narrow left, wide right (reference 40/60 split) */}
-      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_1.68fr]">
+      <StaggerReveal as="div" className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_1.68fr]">
         {/* Card 03 — exported card has all text baked in */}
-        <div className="relative min-h-[220px] overflow-hidden rounded-[28px] md:min-h-[280px] lg:min-h-[340px]">
+        <StaggerItem whileHover={hoverLift} className="relative min-h-[220px] overflow-hidden rounded-[28px] md:min-h-[280px] lg:min-h-[340px]">
           <Image
             src={c3.image!}
             alt={c3.imageAlt!}
@@ -148,10 +152,10 @@ export function FeaturesSection() {
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, (max-width: 1325px) 40vw, 400px"
           />
-        </div>
+        </StaggerItem>
 
         {/* Card 04 — Share Your Route */}
-        <div className="relative min-h-0 overflow-hidden rounded-[28px] border border-[#e8e8e8] bg-white md:min-h-[340px]">
+        <StaggerItem whileHover={hoverLift} className="relative min-h-0 overflow-hidden rounded-[28px] border border-[#e8e8e8] bg-white md:min-h-[340px]">
           <div className="flex h-full flex-col items-start gap-6 px-6 py-7 md:flex-row md:items-center md:justify-between md:px-8 md:py-8">
             <div className="max-w-none shrink-0 md:max-w-[270px]">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#fff0e0]">
@@ -184,7 +188,8 @@ export function FeaturesSection() {
               />
             </div>
           </div>
-        </div>
+        </StaggerItem>
+      </StaggerReveal>
       </div>
     </section>
   );

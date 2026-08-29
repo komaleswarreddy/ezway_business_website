@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { followUsContent } from "@/data/contact-content";
+import { Reveal } from "@/components/motion/Reveal";
 
 type FooterLinkColumn = {
   title: string;
@@ -17,7 +19,6 @@ type FooterConfig = {
   tagline: string;
   showTopBorder: boolean;
   appBadgesRow: boolean;
-  social: "home" | "about";
 };
 
 const footerConfig: Record<"home" | "about" | "careers", FooterConfig> = {
@@ -43,7 +44,6 @@ const footerConfig: Record<"home" | "about" | "careers", FooterConfig> = {
     tagline: "Made with ♥ for India's commuters.",
     showTopBorder: true,
     appBadgesRow: true,
-    social: "home",
   },
   about: {
     description:
@@ -67,7 +67,6 @@ const footerConfig: Record<"home" | "about" | "careers", FooterConfig> = {
     tagline: "Made with ♥ for India's commuters.",
     showTopBorder: true,
     appBadgesRow: true,
-    social: "home",
   },
   careers: {
     description:
@@ -86,7 +85,6 @@ const footerConfig: Record<"home" | "about" | "careers", FooterConfig> = {
     tagline: "Made with ♥ for India's commuters.",
     showTopBorder: true,
     appBadgesRow: true,
-    social: "home",
   },
 };
 
@@ -116,14 +114,6 @@ function YouTubeIcon() {
   );
 }
 
-function XIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
-      <path d="M5 4l6.2 8.5L5.2 20H8l4.6-6.1L16.4 20H19l-6.5-9L18.8 4h-2.9l-4.2 5.6L8.6 4H5z" />
-    </svg>
-  );
-}
-
 function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
@@ -132,32 +122,42 @@ function LinkedInIcon() {
   );
 }
 
-function SocialLinks({ variant }: { variant: "home" | "about" }) {
-  const links =
-    variant === "home"
-      ? [
-          { label: "Instagram", icon: <InstagramIcon /> },
-          { label: "Facebook", icon: <FacebookIcon /> },
-          { label: "YouTube", icon: <YouTubeIcon /> },
-        ]
-      : [
-          { label: "Facebook", icon: <FacebookIcon /> },
-          { label: "X", icon: <XIcon /> },
-          { label: "LinkedIn", icon: <LinkedInIcon /> },
-        ];
+// Known footer link labels that already have a real page — everything else
+// (Help Centre, Safety Tips, Cookie Policy, etc.) has no page yet, so it
+// stays a "#" placeholder.
+const footerLinkHrefMap: Record<string, string> = {
+  About: "/about",
+  Careers: "/careers",
+  "Contact Us": "/contact",
+  "Terms of Service": "/terms",
+  "Privacy Policy": "/privacy",
+};
 
+const footerSocialIconMap = {
+  instagram: InstagramIcon,
+  facebook: FacebookIcon,
+  linkedin: LinkedInIcon,
+  youtube: YouTubeIcon,
+};
+
+function SocialLinks() {
   return (
     <div className="flex gap-3">
-      {links.map((link) => (
-        <Link
-          key={link.label}
-          href="#"
-          aria-label={link.label}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ezway-orange)] text-white"
-        >
-          {link.icon}
-        </Link>
-      ))}
+      {followUsContent.items.map((item) => {
+        const Icon = footerSocialIconMap[item.icon];
+        return (
+          <Link
+            key={item.platform}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={item.platform}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ezway-orange)] text-white transition-transform duration-200 hover:-translate-y-1 hover:opacity-90 active:scale-90"
+          >
+            <Icon />
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -168,10 +168,11 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
   return (
     <footer
       id="contact"
-      className={`bg-[var(--ezway-pure-black)] px-5 pb-8 pt-10 md:px-10 md:pb-10 md:pt-12 lg:px-16 lg:pb-10 lg:pt-16 ${
+      className={`bg-[var(--ezway-pure-black)] ${
         config.showTopBorder ? "border-t-[5px] border-[var(--ezway-orange)]" : ""
       }`}
     >
+      <Reveal as="div" amount={0.1} className="ezway-container px-5 pb-8 pt-10 md:px-10 md:pb-10 md:pt-12 lg:px-16 lg:pb-10 lg:pt-16">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-12">
         <div className="md:col-span-2 lg:col-span-1">
           <Image
@@ -189,7 +190,7 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
               config.appBadgesRow ? "flex-row flex-wrap" : "flex-col items-start"
             }`}
           >
-            <SocialLinks variant={config.social} />
+            <SocialLinks />
             <div
               className={`flex flex-wrap gap-3 ${
                 config.appBadgesRow ? "flex-row" : "flex-col"
@@ -220,8 +221,8 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
               {col.links.map((item) => (
                 <li key={item}>
                   <Link
-                    href="#"
-                    className="text-sm text-[var(--ezway-muted)] hover:text-white"
+                    href={footerLinkHrefMap[item] ?? "#"}
+                    className="text-sm text-[var(--ezway-muted)] transition-colors duration-200 hover:text-white"
                   >
                     {item}
                   </Link>
@@ -236,6 +237,7 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps) {
         <span>{config.copyright}</span>
         <span>{config.tagline}</span>
       </div>
+      </Reveal>
     </footer>
   );
 }

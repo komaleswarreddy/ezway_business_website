@@ -1,4 +1,8 @@
 import { ourStoryContent } from "@/data/about-content";
+import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { fadeInLeft, hoverLift } from "@/components/motion/variants";
 
 const statBgMap = {
   black: "bg-[var(--ezway-black)] text-white",
@@ -9,9 +13,9 @@ const statBgMap = {
 
 export function OurStorySection() {
   return (
-    <section className="ezway-section bg-white text-[var(--ezway-black)]">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
-        <div>
+    <section className="bg-white text-[var(--ezway-black)]">
+      <div className="ezway-container ezway-section grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
+        <Reveal variants={fadeInLeft}>
           <p className="ezway-label mb-3">{ourStoryContent.label}</p>
           <h2 className="ezway-display mb-6 text-[28px] leading-[1] md:text-[38px] lg:text-[48px] lg:leading-[0.95]">
             {ourStoryContent.heading}
@@ -34,21 +38,23 @@ export function OurStorySection() {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-2 gap-4 self-start">
+        <StaggerReveal className="grid grid-cols-2 gap-4 self-start">
           {ourStoryContent.stats.map((stat) => (
-            <div
+            <StaggerItem
               key={stat.label}
+              whileHover={hoverLift}
               className={`rounded-[28px] p-7 ${statBgMap[stat.bg]}`}
             >
-              <p className="ezway-display text-[30px] md:text-[36px] lg:text-[40px]">
-                {stat.value}
-              </p>
+              <AnimatedCounter
+                value={stat.value}
+                className="ezway-display block text-[30px] md:text-[36px] lg:text-[40px]"
+              />
               <p className="mt-2 text-sm opacity-85">{stat.label}</p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerReveal>
       </div>
     </section>
   );

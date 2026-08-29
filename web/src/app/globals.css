@@ -41,6 +41,10 @@
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
+  /* Firefox / IE-Edge legacy: hide the scrollbar entirely. Scrolling via
+     wheel/touch/keyboard still works — only the visual bar is removed. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body {
@@ -52,11 +56,29 @@ body {
   overflow-y: auto;
 }
 
+/* Chrome/Edge/Safari/Brave: hide the scrollbar entirely instead of relying
+   on custom ::-webkit-scrollbar styling, which some Chromium builds ignore
+   in favor of the native OS scrollbar (the chunky one with arrow buttons)
+   depending on OS-level accessibility settings. */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .ezway-page {
-  width: var(--ezway-page-width);
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
   overflow-x: clip;
+}
+
+/* Content-width cap used INSIDE full-bleed section backgrounds, so a
+   section's bg color can reach the viewport edge on wide screens while
+   its content still lines up at the original 1325px column. */
+.ezway-container {
+  width: 100%;
+  max-width: var(--ezway-page-width);
+  margin: 0 auto;
 }
 
 .ezway-display {

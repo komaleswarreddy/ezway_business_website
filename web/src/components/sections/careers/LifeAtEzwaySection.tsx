@@ -2,6 +2,9 @@ import {
   lifeAtEzwayContent,
   type LifeCardBg,
 } from "@/data/careers-content";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerItem, StaggerReveal } from "@/components/motion/Stagger";
+import { hoverLift } from "@/components/motion/variants";
 
 function BoltIcon({ className }: { className?: string }) {
   return (
@@ -135,21 +138,23 @@ const cardStyles: Record<
 
 export function LifeAtEzwaySection() {
   return (
-    <section className="bg-[var(--ezway-light-gray)] px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-xl text-center">
+    <section className="bg-[var(--ezway-light-gray)]">
+      <div className="ezway-container px-5 py-10 md:px-10 md:py-14 lg:px-16 lg:py-20">
+      <Reveal className="mx-auto max-w-xl text-center">
         <p className="ezway-label mb-3">{lifeAtEzwayContent.label}</p>
         <h2 className="ezway-display text-[26px] leading-[1] text-[var(--ezway-black)] md:text-[34px] lg:text-[42px] lg:leading-[0.95]">
           {lifeAtEzwayContent.heading}
         </h2>
-      </div>
+      </Reveal>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+      <StaggerReveal className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
         {lifeAtEzwayContent.cards.map((card) => {
           const Icon = iconMap[card.icon];
           const style = cardStyles[card.bg];
           return (
-            <div
+            <StaggerItem
               key={card.title}
+              whileHover={hoverLift}
               className={`rounded-[24px] px-7 py-7 ${style.card}`}
             >
               <div
@@ -163,9 +168,10 @@ export function LifeAtEzwaySection() {
               <p className={`mt-3 text-[13.5px] leading-[1.65] ${style.body}`}>
                 {card.description}
               </p>
-            </div>
+            </StaggerItem>
           );
         })}
+      </StaggerReveal>
       </div>
     </section>
   );

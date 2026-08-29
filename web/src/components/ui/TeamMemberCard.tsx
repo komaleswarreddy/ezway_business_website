@@ -24,7 +24,7 @@ export function TeamMemberCard({
 
   return (
     <article
-      className={`relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-b from-[#bdbdbd] via-[#5a5a5a] to-[#1a1a1a] ${
+      className={`group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-b from-[#bdbdbd] via-[#5a5a5a] to-[#1a1a1a] transition-transform duration-300 hover:-translate-y-1 ${
         isLarge ? "min-h-[400px]" : "min-h-[340px]"
       }`}
     >
@@ -58,7 +58,7 @@ export function TeamMemberCard({
             alt={name}
             width={avatarSize * 2}
             height={avatarSize * 2}
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
             style={photoZoom !== 1 ? { transform: `scale(${photoZoom})` } : undefined}
           />
         ) : (
